@@ -1,0 +1,7 @@
+Current:
+Simple count - correct / total
+
+
+TODO:
+- weighted majorituy vote (iterations)
+- 
