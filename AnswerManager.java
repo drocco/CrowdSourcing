@@ -9,6 +9,10 @@ public abstract class AnswerManager {
 	
 	public abstract void calculateAnswers(RatingsManager rm);
 	
+	public double getAnswerConfidence(Question q) {
+		return -1;
+	}
+	
 	public int getCorrectAnswer(Question q) {
 		Integer x = answers.get(q);
 		if (x == null) {
