@@ -5,7 +5,17 @@ public abstract class AnswerManager {
 
 	protected HashMap<Question, ArrayList<TurkerAnswer>> turkerAnswers = new HashMap<Question, ArrayList<TurkerAnswer>>();
 	
-	public abstract int getCorrectAnswer(Question q, RatingsManager rm);
+	protected HashMap<Question, Integer> answers = new HashMap<Question, Integer>();
+	
+	public abstract void calculateAnswers(RatingsManager rm);
+	
+	public int getCorrectAnswer(Question q) {
+		Integer x = answers.get(q);
+		if (x == null) {
+			x = -1;
+		}
+		return x;
+	}
 	
 	public void recordAnswer(Question q, Turker t, int answer) {
 		ArrayList<TurkerAnswer> answerList = turkerAnswers.get(q);

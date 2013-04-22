@@ -4,26 +4,22 @@ import java.util.ArrayList;
 public class SimpleCount extends RatingsManager {
 
 	@Override
-	public float getTurkerRating(Turker t, AnswerManager am) {
-		ArrayList<QuestionAnswer> answers = questionAnswers.get(t);
-		
-		if(answers.isEmpty()) {
-			return (float) -1;
-		}
-		
-		float numRight = 0;
-		
-		for (QuestionAnswer qa: answers) {
-			if(am.getCorrectAnswer(qa.question, this) == qa.answer) {
-				numRight++;
+	public void calculateRating(AnswerManager am) {
+		for(Turker t: questionAnswers.keySet()) {
+			ArrayList<QuestionAnswer> answers = questionAnswers.get(t);
+			
+			for (QuestionAnswer qa: answers) {
+				if(am.getCorrectAnswer(qa.question) == qa.answer) {
+					t.setNumRight(t.getNumRight() + 1);
+				}
+				t.setQuestionsAnswered(t.getQuestionsAnswered() + 1);
 			}
 		}
-		
-		return numRight/(float)answers.size();
+		questionAnswers.clear();
 	}
-
+	
 	@Override
-	public float getTurkerConfidence(Turker t) {
-		return 1; //not sure for now.... maybe just use some probablity of his answers vs chance they are random?
+	public double getTurkerConfidence(Turker t) {
+		return 1; //not sure for now.... maybe just use some probability of his answers versus chance they are random?
 	}
 }

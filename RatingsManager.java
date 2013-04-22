@@ -5,13 +5,20 @@ public abstract class RatingsManager {
 	
 	protected HashMap<Turker,ArrayList<QuestionAnswer>> questionAnswers = new HashMap<Turker,ArrayList<QuestionAnswer>>();
 	
-	public abstract float getTurkerRating(Turker t, AnswerManager am);
+	public double getTurkerRating(Turker t) {
+		if(t.getQuestionsAnswered() == 0) {
+			return -1;
+		}
+		return t.getNumRight() / (double) t.getQuestionsAnswered();
+	}
 	
-	public abstract float getTurkerConfidence(Turker t);
+	public abstract void calculateRating(AnswerManager am);
+	
+	public abstract double getTurkerConfidence(Turker t);
 	
 	public void recordAnswer(Turker t, Question q, int answer) {
 		ArrayList<QuestionAnswer> answerList = questionAnswers.get(t);
-		if(answerList == null){
+		if(answerList == null) {
 			answerList = new ArrayList<QuestionAnswer>();
 			questionAnswers.put(t, answerList);
 		}

@@ -2,14 +2,20 @@ import java.util.Random;
 
 public class Turker {
 	
-	private float rightPercentage;
+	private double rightPercentage;
 	@SuppressWarnings("unused")
 	private int responseTime;//not used for now
 	@SuppressWarnings("unused")
 	private int moneyCost;//not used yet
 	private static Random rand = new Random();//static because I'm afraid that we might end up with a lot of turkers with same seed
+	private int numRight;
+	private int questionsAnswered;
 	
-	public Turker(float rightPercentage, int responseTime, int moneyCost) {
+	public Turker(double rightPercentage) {
+		this(rightPercentage, 1, 1);
+	}
+	
+	public Turker(double rightPercentage, int responseTime, int moneyCost) {
 		super();
 		this.rightPercentage = rightPercentage;
 		this.responseTime = responseTime;
@@ -28,7 +34,23 @@ public class Turker {
 		}
 	}
 	
-	public float getRightPercentage() {
+	public double getRightPercentage() {
 		return rightPercentage;
+	}
+
+	public int getNumRight() {
+		return numRight;
+	}
+
+	public void setNumRight(int numRight) {
+		this.numRight = numRight;
+	}
+
+	public int getQuestionsAnswered() {
+		return questionsAnswered;
+	}
+
+	public void setQuestionsAnswered(int questionsAnswered) {
+		this.questionsAnswered = questionsAnswered;
 	}
 }

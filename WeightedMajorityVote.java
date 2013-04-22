@@ -1,20 +1,24 @@
 import java.util.ArrayList;
 
-public class MajorityVote extends AnswerManager {
+public class WeightedMajorityVote extends AnswerManager {
 
 	@Override
 	public void calculateAnswers(RatingsManager rm) {
 		for (Question q : turkerAnswers.keySet()){
 			ArrayList<TurkerAnswer> answerList =  turkerAnswers.get(q);
 			
-			int[] count = new int[q.getNumberOfChoices()];
+			double[] count = new double[q.getNumberOfChoices()];
 			
 			for(TurkerAnswer ta: answerList) {
-				count[ta.answer - 1]++;
+				double rating = rm.getTurkerRating(ta.turk);
+				if(rating < 0) {
+					rating = 1.0/q.getNumberOfChoices();
+				}
+				count[ta.answer - 1] += rating;
 			}
 			
 			int correct = -1;
-			int size = -1;
+			double size = -1;
 			
 			for(int x = 0; x < count.length; x++) {
 				if(count[x] > size) {
