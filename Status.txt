@@ -1,6 +1,5 @@
 TODO: (priority level)
 - Method to calculate answer confidence (HIGH)
-- Calculate answer accuracy: this ensure we aren't messing up accuracy with weightedMV (MEDIUM)
 - Simple loop until desired confidence attained (HIGH)
 - Scheduler that utilizes Turker cost and rating (LOW)
 - Dynamic cost model for Turkers: balances workload and prevents starvation (LOW)
