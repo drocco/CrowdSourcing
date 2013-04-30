@@ -1,6 +1,4 @@
 TODO: (priority level)
-- Method to calculate answer confidence (HIGH)
-- Simple loop until desired confidence attained (HIGH)
 - Scheduler that utilizes Turker cost and rating (LOW)
 - Dynamic cost model for Turkers: balances workload and prevents starvation (LOW)
 - Write paper (HIGH)
