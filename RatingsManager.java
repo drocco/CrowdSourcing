@@ -6,13 +6,13 @@ public abstract class RatingsManager {
 	protected HashMap<Turker,ArrayList<QuestionAnswer>> questionAnswers = new HashMap<Turker,ArrayList<QuestionAnswer>>();
 	
 	public double getTurkerRating(Turker t) {
-		if(t.getQuestionsAnswered() == 0) {
-			return -1;
+		if(t.getQuestionsAnswered() <= 10) {
+			return .55;
 		}
 		return t.getNumRight() / (double) t.getQuestionsAnswered();
 	}
 	
-	public abstract void calculateRating(AnswerManager am);
+	public abstract void calculateRatings(AnswerManager am);
 	
 	public abstract double getTurkerConfidence(Turker t);
 	

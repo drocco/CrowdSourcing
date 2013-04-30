@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class SimpleCount extends RatingsManager {
 
 	@Override
-	public void calculateRating(AnswerManager am) {
+	public void calculateRatings(AnswerManager am) {
 		for(Turker t: questionAnswers.keySet()) {
 			ArrayList<QuestionAnswer> answers = questionAnswers.get(t);
 			

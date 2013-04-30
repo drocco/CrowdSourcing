@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
 public class MajorityVote extends AnswerManager {
+	
+	public MajorityVote(double minConfidence){
+		super(minConfidence);
+	}
 
 	@Override
 	public void calculateAnswers(RatingsManager rm) {
@@ -23,8 +27,7 @@ public class MajorityVote extends AnswerManager {
 				}
 			}
 			
-			answers.put(q, correct + 1);
+			answers.put(q, new RatingConfidence(correct + 1, calculateAnswerConfidence(q, correct + 1, rm)));
 		}
-		turkerAnswers.clear();
 	}
 }
