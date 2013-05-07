@@ -16,7 +16,7 @@ public class WeightedMajorityVote extends AnswerManager {
 			for(TurkerAnswer ta: answerList) {
 				double rating = rm.getTurkerRating(ta.turk);
 				if(rating < 0) {
-					rating = 1.0/q.getNumberOfChoices();
+					rating = 1.0/q.getNumberOfChoices() + (1.0/q.getNumberOfChoices() *.1);
 				}
 				count[ta.answer - 1] += rating;
 			}

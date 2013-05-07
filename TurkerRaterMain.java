@@ -7,12 +7,12 @@ public class TurkerRaterMain {
 	public static void main(String[] args) {
 		//Parameters
 		double minTurkerProb = .6;
-		double maxTurkerProb = .8;
-		double minConfidence = .95;
-		int numTurkers = 25;
-		int numQuestions = 10000;
+		double maxTurkerProb = .99;
+		double minConfidence = .999;
+		int numTurkers = 50;
+		int numQuestions = 20000;
 		int numPossibleAnswers = 2;
-		int numDuplications = 10;
+		int numDuplications = 20;
 		int loops = 100;
 		boolean reachConfidence = false;
 		

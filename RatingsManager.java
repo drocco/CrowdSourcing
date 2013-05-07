@@ -7,7 +7,7 @@ public abstract class RatingsManager {
 	
 	public double getTurkerRating(Turker t) {
 		if(t.getQuestionsAnswered() <= 10) {
-			return .55;
+			return -1.0;
 		}
 		return t.getNumRight() / (double) t.getQuestionsAnswered();
 	}

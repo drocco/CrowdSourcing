@@ -20,6 +20,8 @@ public class Turker {
 		this.rightPercentage = rightPercentage;
 		this.responseTime = responseTime;
 		this.moneyCost = moneyCost;
+		this.numRight = 0;
+		this.questionsAnswered = 0;
 	}
 
 	public int answerQuestion(Question q){

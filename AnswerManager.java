@@ -37,18 +37,20 @@ public abstract class AnswerManager {
 		double probAssumingCorrect = 1.0/q.getNumberOfChoices();
 		double probAssumingIncorrect = 1 - probAssumingCorrect;
 		for (TurkerAnswer ta : answerList) {
+			double rating = rm.getTurkerRating(ta.turk);
+			if (rating < 0){
+				rating = 1.0/q.getNumberOfChoices() + (1.0/q.getNumberOfChoices() * .1);
+			}
+			
 			if (ta.answer == answer) {
-				probAssumingCorrect *= rm.getTurkerRating(ta.turk);
-				probAssumingIncorrect *= (1 - rm.getTurkerRating(ta.turk)) / (q.getNumberOfChoices() - 1.0);
+				probAssumingCorrect *= rating;
+				probAssumingIncorrect *= (1 - rating) / (q.getNumberOfChoices() - 1.0);
 			} else {
-				probAssumingCorrect *= (1 - rm.getTurkerRating(ta.turk)) / (q.getNumberOfChoices() - 1.0);
-				//not entirely sure why this works, but I'm pretty sure it does
-				probAssumingIncorrect *= (1.0 / (q.getNumberOfChoices() - 1)) * (rm.getTurkerRating(ta.turk) + ((1 - rm.getTurkerRating(ta.turk)) / (q.getNumberOfChoices() - 1.0)) * (q.getNumberOfChoices() - 2));
+				probAssumingCorrect *= (1 - rating) / (q.getNumberOfChoices() - 1.0);
+				probAssumingIncorrect *= (1.0 / (q.getNumberOfChoices() - 1)) * (rating + ((1 - rating) / (q.getNumberOfChoices() - 1.0)) * (q.getNumberOfChoices() - 2));
 			}
 		}
-		double confidence = probAssumingCorrect / (probAssumingCorrect + probAssumingIncorrect);
-		
-		return confidence;
+		return probAssumingCorrect / (probAssumingCorrect + probAssumingIncorrect);
 	}
 	
 	public int getCorrectAnswer(Question q) {
