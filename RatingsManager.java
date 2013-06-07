@@ -1,10 +1,13 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class RatingsManager {
+//Logic that keeps track of and computes ratings of each turker
+public class RatingsManager {
 	
+	//Keep track of each Turker and which questions they answered and what they answered
 	protected HashMap<Turker,ArrayList<QuestionAnswer>> questionAnswers = new HashMap<Turker,ArrayList<QuestionAnswer>>();
 	
+	//Return rating. Simple computation of numCorrectAnswers/totalQuestionsAnswered
 	public double getTurkerRating(Turker t) {
 		if(t.getQuestionsAnswered() <= 10) {
 			return -1.0;
@@ -12,10 +15,23 @@ public abstract class RatingsManager {
 		return t.getNumRight() / (double) t.getQuestionsAnswered();
 	}
 	
-	public abstract void calculateRatings(AnswerManager am);
+	//Called when a question answer is settled. This method records which turkers got it right
+	//and which got it wrong. TODO change how this works if we want to multithread this
+	public void calculateRatings(AnswerManager am) {
+		for(Turker t: questionAnswers.keySet()) {
+			ArrayList<QuestionAnswer> answers = questionAnswers.get(t);
+			
+			for (QuestionAnswer qa: answers) {
+				if(am.getCorrectAnswer(qa.question) == qa.answer) {
+					t.setNumRight(t.getNumRight() + 1);
+				}
+				t.setQuestionsAnswered(t.getQuestionsAnswered() + 1);
+			}
+		}
+		questionAnswers.clear();
+	}
 	
-	public abstract double getTurkerConfidence(Turker t);
-	
+	//Stuff some data into the structures
 	public void recordAnswer(Turker t, Question q, int answer) {
 		ArrayList<QuestionAnswer> answerList = questionAnswers.get(t);
 		if(answerList == null) {
@@ -25,6 +41,7 @@ public abstract class RatingsManager {
 		answerList.add(new QuestionAnswer(q,answer));
 	}
 	
+	//Private class to group questions with the answer the turker gave
 	protected static class QuestionAnswer {
 		public Question question;
 		public int answer;

@@ -1,5 +1,6 @@
 import java.util.Random;
 
+//Factory to generate a lot of questions
 public class QuestionFactory {
 	private static Random rand = new Random();
 	

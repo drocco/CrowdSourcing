@@ -1,34 +1,36 @@
 
 public class TurkerRaterMain {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		//Parameters
-		double minTurkerProb = .6;
-		double maxTurkerProb = .99;
-		double minConfidence = .999;
-		int numTurkers = 50;
+		double minTurkerProb = .7;
+		double maxTurkerProb = .95;
+		int numTurkers = 500;
 		int numQuestions = 20000;
-		int numPossibleAnswers = 2;
-		int numDuplications = 20;
+		int numPossibleAnswers = 4;
+		int numDuplications = 5;
+		double desiredConfidence = .95;
 		int loops = 100;
 		boolean reachConfidence = false;
 		
+		//Performance variables
 		double errAverage = 0.0;
 		double answerAverage = 0.0;
 		double questionAverage = 0.0;
 		
+		//Loops many times to smooth out answers
 		for(int y = 0; y < loops; y++) {
+			
 			Turker[] turkers = TurkerFactory.getRandomTurkers(minTurkerProb, maxTurkerProb, numTurkers);
 			Question[] questions = QuestionFactory.getRandomQuestions(numPossibleAnswers, numQuestions);
-			Scheduler sched = new RoundRobin(turkers);
-			AnswerManager am = new WeightedMajorityVote(minConfidence);
-			RatingsManager rm = new SimpleCount();
-			
+			Scheduler sched = new MTurkScheduler(turkers);
+			AnswerManager am = new WeightedMajorityVote(desiredConfidence);
+			RatingsManager rm = new RatingsManager();
 			int questionsAsked = 0;
 			int numCorrect = 0;
+			double err = 0;
+			
+			//Naive loop: Ask each question a fixed number of times
 			if(!reachConfidence) {
 				for(Question q: questions) {
 					for(int x = 0; x < numDuplications; x++) {
@@ -47,9 +49,10 @@ public class TurkerRaterMain {
 					}
 				}
 			} else {
+				//Loop until desired confidence in answer has been reached
 				for(Question q: questions){
 					double confidence = -1;
-					while (confidence < minConfidence) {
+					while (confidence < desiredConfidence) {
 						Turker t = sched.next();
 						int answer = t.answerQuestion(q);
 						am.recordAnswer(q, t, answer);
@@ -66,16 +69,12 @@ public class TurkerRaterMain {
 					}
 				}
 			}
-				
-
-			double err = 0;
+			
+			//Calculate average difference between the computed accuracy and the actual accuracy of Turkers
 			for(Turker t: turkers) {
 				double real = t.getRightPercentage(); 
 				double calc = rm.getTurkerRating(t);
 				err += (Math.abs(real - calc));
-//				System.out.print(real);
-//				System.out.print(" : ");
-//				System.out.println(calc);
 			}
 		
 			errAverage += err/turkers.length;
@@ -83,10 +82,8 @@ public class TurkerRaterMain {
 			questionAverage += questionsAsked;
 		}
 		
-		System.out.print("Average difference: ");
-		System.out.println(errAverage/loops);
-		System.out.print("Average accuracy: ");
-		System.out.println(answerAverage / loops);
+		System.out.println("Average difference: " + errAverage/loops);
+		System.out.println("Average accuracy: " + answerAverage / loops);
 		System.out.println("Questions Asked: " + questionAverage / loops);
 	}
 }

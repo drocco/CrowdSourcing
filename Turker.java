@@ -1,5 +1,7 @@
 import java.util.Random;
 
+//Representation of Turkers. They have a set "correct" percentage. When a question is asked, they check to see if they will answer
+//right or wrong. If they answer wrong, they have an equal chance to return any of the wrong answers.
 public class Turker {
 	
 	private double rightPercentage;
@@ -7,7 +9,8 @@ public class Turker {
 	private int responseTime;//not used for now
 	@SuppressWarnings("unused")
 	private int moneyCost;//not used yet
-	private static Random rand = new Random();//static because I'm afraid that we might end up with a lot of turkers with same seed
+	private static Random rand = new Random();
+	//Used to calculate accuracy
 	private int numRight;
 	private int questionsAnswered;
 	
@@ -15,6 +18,7 @@ public class Turker {
 		this(rightPercentage, 1, 1);
 	}
 	
+	//We don't use repsonseTime or moneyCost yet, but may in future
 	public Turker(double rightPercentage, int responseTime, int moneyCost) {
 		super();
 		this.rightPercentage = rightPercentage;
@@ -24,6 +28,7 @@ public class Turker {
 		this.questionsAnswered = 0;
 	}
 
+	//Generate an answer to the question
 	public int answerQuestion(Question q){
 		if(rand.nextFloat() <= rightPercentage) {
 			return q.getRightChoice();

@@ -1,5 +1,6 @@
 import java.util.Random;
 
+//Scheduler meant to imitate MTurk: 20% of Turkers answer 80% of questions. Based off of one of the papers
 public class MTurkScheduler extends Scheduler {
 	
 	private static Random random = new Random();

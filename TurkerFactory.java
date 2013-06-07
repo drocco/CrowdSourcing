@@ -1,5 +1,6 @@
 import java.util.Random;
 
+//Factory to make a lot of Turkers
 public class TurkerFactory {
 	
 	private static Random rand = new Random();

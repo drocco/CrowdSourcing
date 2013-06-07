@@ -1,3 +1,4 @@
+//Represents the questions or HITs currently only simulates multiple choice questions. May expand to Likert scales in future
 public class Question {
 
 	private int numberOfChoices;

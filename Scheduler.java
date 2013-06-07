@@ -1,4 +1,4 @@
-
+//Abstract Scheduler. Basically just an infinite iterator over the collection of Turkers
 public abstract class Scheduler {
 	
 	protected Turker[] turkers;
@@ -9,5 +9,4 @@ public abstract class Scheduler {
 	}
 
 	abstract public Turker next();
-	
 }
